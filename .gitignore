@@ -4,10 +4,12 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.ipynb_checkpoints/
 .DS_Store
 
-data/
-outputs/
+DATASET/
+output/
+
 dist/
 build/
 *.egg-info/

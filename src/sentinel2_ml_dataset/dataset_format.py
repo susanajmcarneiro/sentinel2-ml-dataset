@@ -11,15 +11,21 @@ class NumpyDatasetFormat:
         self.images_directory.mkdir(parents=True, exist_ok=True)
         self.masks_directory.mkdir(parents=True, exist_ok=True)
 
-
     def save_image(self, tile, filename):
-        tile = tile.astype(np.uint16)
-
         output_path = self.images_directory / filename
-        np.save(output_path, tile)
+        np.save(output_path,np.ascontiguousarray(tile),allow_pickle=False)
 
     def save_mask(self, tile, filename):
-        tile = tile.astype(np.uint8)
-
         output_path = self.masks_directory / filename
-        np.save(output_path, tile)
+        np.save(output_path,np.ascontiguousarray(tile),allow_pickle=False)
+
+    def load_image(self, filename, bands=None):
+        image = np.load(self.images_directory/filename,mmap_mode="r",allow_pickle=False)
+
+        if bands is None:
+            return image
+
+        return image[..., bands]
+
+    def load_mask(self, filename):
+        return np.load(self.masks_directory / filename,mmap_mode="r",allow_pickle=False)
